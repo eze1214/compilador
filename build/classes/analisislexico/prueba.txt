@@ -1,0 +1,20 @@
+const M = 7, N = 85;
+var X, Y, Z, Q, R;
+procedure MULTIPLICAR;
+var A, B;
+begin
+A := X;
+B := Y;
+Z := 0;
+while B > 0 do
+begin
+if odd B then Z := Z + A;
+A := A * 2;
+B := B / 2
+end
+end;
+$$$$
+readln;
+read;
+writeln;
+write;

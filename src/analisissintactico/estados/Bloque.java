@@ -5,7 +5,7 @@
  */
 package analisissintactico.estados;
 
-import java.util.Stack;
+import java.util.Queue;
 
 /**
  *
@@ -13,23 +13,29 @@ import java.util.Stack;
  */
 public class Bloque extends Estado{
 
-    public Bloque(Stack<Terminal> simbolos) {
+    public Bloque(Queue<Terminal> simbolos) {
         super(simbolos);
+        System.out.println(simbolos);
     }
     
-    Terminal simbolo;
+    boolean seguir;
     @Override
     public void ejecutar(){
-        switch (simbolos.pop()) {
+        switch (simbolos.poll()) {
             case CONST:
                 do{
+                    seguir = false;
                     System.out.println("Comienta el ciclo");
-                if (simbolos.pop() == Terminal.IDENT && 
-                    simbolos.pop() == Terminal.IGUAL &&
-                    simbolos.pop() == Terminal.NUMERO){
-                        System.out.println("Termina el ciclo");
-                } }while((simbolo = simbolos.get(0)) == Terminal.COMA);
-                if (simbolo == Terminal.PUNTO_COMA){
+                    if (simbolos.poll() == Terminal.IDENT && 
+                        simbolos.poll() == Terminal.IGUAL &&
+                        simbolos.poll() == Terminal.NUMERO){
+                            System.out.println("Termina el ciclo"+simbolos.get(0));
+                    }
+                    if (simbolos.get(0) == Terminal.COMA){
+                        seguir = true;
+                        simbolos.poll();}
+                } while(seguir);
+                if (simbolos.poll() == Terminal.PUNTO_COMA){
                     System.out.println("termino el ciclo bien");
                 } else System.out.println("Termino el ciclo mal");
                 break;

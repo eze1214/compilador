@@ -5,7 +5,8 @@ import analisissintactico.estados.Bloque;
 import analisissintactico.estados.Estado;
 import analisissintactico.estados.Programa;
 import analisissintactico.estados.Terminal;
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  *
@@ -15,7 +16,7 @@ public class AnalizadorSintactico {
     private Programa estado;
     
     AnalizadorSintactico(){
-        Stack comandos = new Stack();
+        Queue comandos = new LinkedList();
         comandos.add(Terminal.CONST);
         comandos.add(Terminal.IDENT);
         comandos.add(Terminal.IGUAL);

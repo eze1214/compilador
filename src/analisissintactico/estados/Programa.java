@@ -1,10 +1,10 @@
 package analisissintactico.estados;
 
-import java.util.Stack;
+import java.util.Queue;
 
 public class Programa extends Estado{
 
-    public Programa(Stack<Terminal> simbolos) {
+    public Programa(Queue <Terminal> simbolos) {
         super(simbolos);
     }
 

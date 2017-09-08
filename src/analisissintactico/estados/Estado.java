@@ -5,16 +5,17 @@
  */
 package analisissintactico.estados;
 
-import java.util.Stack;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  *
  * @author alumno
  */
 abstract public class Estado {
-   protected Stack <Terminal> simbolos;
-   Estado(Stack <Terminal> simbolos){
-       this.simbolos = new Stack();
+   protected LinkedList <Terminal> simbolos;
+   Estado(Queue <Terminal> simbolos){
+       this.simbolos = new LinkedList(simbolos);
        simbolos.addAll(simbolos);
    }
    
