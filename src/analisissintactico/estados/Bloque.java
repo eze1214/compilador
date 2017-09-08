@@ -5,6 +5,7 @@
  */
 package analisissintactico.estados;
 
+import common.Terminal;
 import java.util.Queue;
 
 /**

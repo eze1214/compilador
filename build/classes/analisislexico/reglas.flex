@@ -61,7 +61,7 @@ whiteSpace = {lineTerminator} | [ \t\f]
 "readln" {t = Terminal.READLN; return t;}
 "writeln" {t = Terminal.WRITELN; return t;}
 "write" {t = Terminal.WRITE; return t;} 
-{identificador} {t = Terminal.IDENTIFICADOR; return t;}
+{identificador} {t = Terminal.IDENT; return t;}
 {numero} {
     t = Terminal.NUMERO; return t;
 }

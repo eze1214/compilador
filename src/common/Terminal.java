@@ -1,4 +1,4 @@
-package analisislexico;
+package common;
 
 /**
  *
@@ -19,7 +19,7 @@ public enum Terminal {
     MENOR_IGUAL,
     DISTINTO,
     ODD,
-    IDENTIFICADOR,
+    IDENT,
     NUMERO,
     CADENA_TEXTO,
     NULO,
