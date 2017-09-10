@@ -708,7 +708,7 @@ public class AnalizadorLexico {
             { t = Terminal.NUMERO; return t;
             }
           case 37: break;
-          case 4: 
+          case 4:  
             { t = Terminal.SALTO_LINEA; return t;
             }
           case 38: break;
