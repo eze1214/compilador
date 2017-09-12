@@ -21,5 +21,9 @@ abstract public class Estado {
        this.simbolos = new LinkedList(simbolos);
    }
    
+   public String getTipo(){
+       return this.getClass().getName();
+   }
+   
    abstract public Error ejecutar();
 }

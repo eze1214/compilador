@@ -89,9 +89,10 @@ public class Ciclo {
     protected Integer contador;
     protected Iterator<Terminal> itComp;
     protected Iterator <String> itMsg;
+    protected Terminal simbComparar; //Utilizado para leer de la lista de comparadores
     
     protected void chequearCiclo(){
-        if (simbolo != itComp.next()){
+        if (simbolo != simbComparar){
                 error = new Error(itMsg.next());
                     terminar = true;
                 } else {
@@ -121,13 +122,14 @@ public class Ciclo {
     }
     public Error run(Queue <Terminal> simbolos){
         //System.out.println(componentes);
-    itComp = componentes.iterator();
+        itComp = componentes.iterator();
         itMsg = mensajes.iterator();
         error = new Error();
         terminar = false;
         contador = 0;
         while (!simbolos.isEmpty() && !terminar){
             simbolo = simbolos.poll();
+            simbComparar = itComp.next();
             if (contador < componentes.size()){
                 chequearCiclo();
             } else {

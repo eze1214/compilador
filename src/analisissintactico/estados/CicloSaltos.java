@@ -15,29 +15,36 @@ import java.util.Queue;
  */
 public class CicloSaltos extends Ciclo {
     
+    private Estado estado;
     GeneradorEstados generador;
     public CicloSaltos(Queue<Terminal> componentes, Queue<String> mensajes, Terminal cont, Terminal fin) {
         super(componentes, mensajes, cont, fin);
     }
     
-    
+    private void ejecutarEstado(){
+        error = estado.ejecutar();
+        System.out.println("Error de estado ejecutado"+ error.get());
+        if (error.get() != null){
+            terminar =  true;
+        }
+    }
     @Override
     public Error run(Queue <Terminal> simbolos){
         generador =  new GeneradorEstados();
-        Estado estado;
         System.out.println("Ciclo saltos");
         itComp = componentes.iterator();
         itMsg = mensajes.iterator();
         error = new Error();
         terminar = false;
         contador = 0;
+        
         while (!simbolos.isEmpty() && !terminar){
             simbolo = simbolos.poll();
-            if ((estado = generador.run(simbolo,simbolos)) != null ) {//TODO no va simbolo va itCOMP.next();
-                error = estado.ejecutar();
-                if (error.get() != null){
-                    terminar =  true;
-                }
+            simbComparar = itComp.next();
+            System.out.println(simbComparar);
+            if ((estado = generador.run(simbComparar,simbolos)) != null ) {//TODO no va simbolo va itCOMP.next();
+                System.out.println("se ejecuta un estado" + estado.getTipo());
+                ejecutarEstado();
             } else {
             if (contador < componentes.size()){
                 chequearCiclo();
