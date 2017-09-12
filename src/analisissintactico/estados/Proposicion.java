@@ -75,7 +75,7 @@ public class Proposicion extends Estado {
         Queue <String> mensajes = new LinkedList();
         mensajes.add("Se esperaba una identificador");
 
-        Ciclo ciclo = new CicloSaltos(nodos,mensajes,Terminal.CERRADO,Terminal.PUNTO_COMA);
+        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO);
         error = ciclo.run(simbolos);
     }
     

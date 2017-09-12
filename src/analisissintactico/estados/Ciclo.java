@@ -101,15 +101,28 @@ public class Ciclo {
                 }
     }
     
+    protected void insertar (Terminal t, Queue<Terminal> simbolos){
+        Queue <Terminal> aux = new LinkedList();
+        aux.add(t);
+        aux.addAll(simbolos);
+        simbolos.removeAll(aux);
+        simbolos.addAll(aux);
+        System.out.printf("Despues de insertar " +simbolos);
+    }
+    
     protected void decidirSiSeguir(Queue<Terminal> simbolos){
         if (simbolo == fin){
                     error = new Error();
                     terminar = true;
                     } else if(simbolo == cont) {
                     contador = 0; 
-                    }else{
+                    }else if (fin == Terminal.CERRADO){
+                       error = null;
+                       insertar(simbolo,simbolos);
+                       terminar = true;
+                    } else{
                        error = new Error("Se esperaba "+ fin);
-                       simbolos.add(simbolo);
+                       insertar(simbolo,simbolos);
                        terminar = true;
                 }
     }

@@ -12,13 +12,14 @@ package analisissintactico.estados;
 public class Error {
     private String msj;
     
-    Error (String msj){
+    public Error (String msj){
         this.msj = msj;
     };
     
-    Error(){
+    public Error(){
         msj = null;
     }
+    
     @Override
     public String toString(){
         return msj;

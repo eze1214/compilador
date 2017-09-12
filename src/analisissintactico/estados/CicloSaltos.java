@@ -6,7 +6,7 @@
 package analisissintactico.estados;
 
 import common.Terminal;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -23,11 +23,13 @@ public class CicloSaltos extends Ciclo {
     
     private void ejecutarEstado(){
         error = estado.ejecutar();
-        System.out.println("Error de estado ejecutado"+ error.get());
-        if (error.get() != null){
-            terminar =  true;
+        System.out.println("Error de estado ejecutado");
+        if (error == null){
+            //terminar =  true;
         }
     }
+    
+
     @Override
     public Error run(Queue <Terminal> simbolos){
         generador =  new GeneradorEstados();
@@ -39,13 +41,16 @@ public class CicloSaltos extends Ciclo {
         contador = 0;
         
         while (!simbolos.isEmpty() && !terminar){
-            simbolo = simbolos.poll();
             simbComparar = itComp.next();
+            simbolo = simbolos.poll();
             System.out.println(simbComparar);
             if ((estado = generador.run(simbComparar,simbolos)) != null ) {//TODO no va simbolo va itCOMP.next();
+                insertar(simbolo,simbolos); ;//Lo agrego porque ahora es responsabilidad del estado 
+                estado = generador.run(simbComparar,simbolos);
                 System.out.println("se ejecuta un estado" + estado.getTipo());
                 ejecutarEstado();
             } else {
+                
             if (contador < componentes.size()){
                 chequearCiclo();
             } else {

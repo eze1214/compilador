@@ -77,7 +77,7 @@ public class Bloque extends Estado{
                 fProcedure();
                 break;
             default:
-                break;
+                error = new Error();
         }
         return error;
     }
