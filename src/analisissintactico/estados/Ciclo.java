@@ -7,6 +7,7 @@ package analisissintactico.estados;
 
 import common.Terminal;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -17,53 +18,123 @@ import java.util.Queue;
 //Componentes se refiere a la lista que contiene los elementos del ciclo
 //Simbolos son los del analizador lexico
 public class Ciclo {
-    private final Queue <Terminal> componentes;
-    private final Queue <String> mensajes;
-    private final Terminal cont;
-    private final Terminal fin;
+    
+    private class ListaCircular<T> extends LinkedList <T>{
+        public Queue <T> componentes;
+        
+        @Override
+        public int size(){
+            return componentes.size();
+        }
+        ListaCircular(Queue <T> componentes){
+            this.componentes = componentes;
+        }
+        private class IteratorCircular<T> implements Iterator<T>{
+        private Integer pos;
+        public Iterator<Terminal> it;
+        
+        IteratorCircular(){
+            pos = 0;
+            it =  (Iterator<Terminal>) componentes.iterator();
+        }
+
+        public Integer getPos(){
+            return pos;
+        }
+        
+        public T get(int pos){
+            T elemento = this.next();
+            while (pos != this.getPos()){
+                elemento = this.next();
+            }
+            return elemento;
+        }
+            @Override
+            public boolean hasNext() {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+        @Override
+            public String toString(){
+                throw new UnsupportedOperationException("No soportado String");
+            }
+            @Override
+            public T next() {
+                if(!it.hasNext()){
+                    it =  (Iterator<Terminal>) componentes.iterator();
+                    pos = 0;
+                    return (T) it.next();
+                } else {
+                    pos = pos +1;
+                    return (T) it.next();
+                }
+            }
+        }
+       
+
+       @Override
+       public Iterator<T> iterator() {
+           Iterator it = new IteratorCircular();
+           return it;
+       }
+    }
+    protected final Queue <Terminal> componentes;
+    protected final Queue <String> mensajes;
+    protected final Terminal cont;
+    protected final Terminal fin;
+    
+    protected Terminal simbolo;
+    protected Error error;
+    protected Boolean terminar;
+    protected Integer contador;
+    protected Iterator<Terminal> itComp;
+    protected Iterator <String> itMsg;
+    
+    protected void chequearCiclo(){
+        if (simbolo != itComp.next()){
+                error = new Error(itMsg.next());
+                    terminar = true;
+                } else {
+                  contador ++;
+                  itMsg.next();
+                }
+    }
+    
+    protected void decidirSiSeguir(Queue<Terminal> simbolos){
+        if (simbolo == fin){
+                    error = new Error();
+                    terminar = true;
+                    } else if(simbolo == cont) {
+                    contador = 0; 
+                    }else{
+                       error = new Error("Se esperaba "+ fin);
+                       simbolos.add(simbolo);
+                       terminar = true;
+                }
+    }
     
     public  Ciclo(Queue <Terminal> componentes, Queue <String> mensajes, Terminal cont, Terminal fin){
-        this.componentes = componentes;
-        this.mensajes = mensajes;
+        this.componentes = new ListaCircular(componentes);
+        this.mensajes = new ListaCircular(mensajes);
         this.cont = cont;
         this.fin =  fin;
     }
     public Error run(Queue <Terminal> simbolos){
-        Error errorMsj = new Error();
-        boolean error = false;
-        boolean seguir = true;
-        Iterator <Terminal> itComp = componentes.iterator();
-        Iterator <String> itMsg = mensajes.iterator();
-        Terminal simbolo;
-        do {    
-            while (itComp.hasNext() && !simbolos.isEmpty() && !error){
-                simbolo = itComp.next();    
-                if (simbolos.poll() != simbolo){
-                    error = true;
-                    errorMsj = new Error (itMsg.next());
-                } else{
-                    itMsg.next();
-                }
-            }
-            
-            if (!error){
-                simbolo = simbolos.poll();
-                if (simbolo != cont){
-                    seguir = false;
-                    simbolos.add(simbolo);
-                } else {
-                    itComp = componentes.iterator();
-                    itMsg = mensajes.iterator();
-                }
-            }
-        } while (seguir && !error);
+        //System.out.println(componentes);
+    itComp = componentes.iterator();
+        itMsg = mensajes.iterator();
+        error = new Error();
+        terminar = false;
+        contador = 0;
+        while (!simbolos.isEmpty() && !terminar){
             simbolo = simbolos.poll();
-        if (simbolo != fin && !error){
-            errorMsj = new Error("Error se esperaba " + fin);
-            simbolos.add(simbolo);
-        } else if (!error){
-            errorMsj = new Error();
+            if (contador < componentes.size()){
+                chequearCiclo();
+            } else {
+                decidirSiSeguir(simbolos);
+            }
         }
-        return errorMsj;
+        
+        return error;
     }
 }

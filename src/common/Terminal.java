@@ -38,6 +38,16 @@ public enum Terminal {
     READLN,
     WRITELN,
     WRITE,
-    EOF;
+    EOF,
+
+    /**
+     *Reservadopara que no haya ciclos
+     */
+    CERRADO, //Reservador para que no haya ciclos
+    
+    /**
+     * Salto a un bloque
+     */
+    BLOQUE, EXPRESION, PREPOSICION;
 }
 

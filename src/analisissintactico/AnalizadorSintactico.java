@@ -15,16 +15,12 @@ public class AnalizadorSintactico {
     
     AnalizadorSintactico(){
         Queue comandos = new LinkedList();
-        comandos.add(Terminal.CONST);
+        comandos.add(Terminal.PROCEDURE);
         comandos.add(Terminal.IDENT);
         comandos.add(Terminal.IGUAL);
         comandos.add(Terminal.NUMERO);
-        comandos.add(Terminal.COMA);
-        comandos.add(Terminal.IDENT);
-        comandos.add(Terminal.IGUAL);
         comandos.add(Terminal.NUMERO);
-        comandos.add(Terminal.PUNTO_COMA);
-        
+        comandos.add(Terminal.NUMERO);
         Estado estado1 =  new Bloque(comandos);
         estado1.ejecutar();
     }

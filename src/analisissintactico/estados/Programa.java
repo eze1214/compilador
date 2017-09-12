@@ -10,7 +10,7 @@ public class Programa extends Estado{
     }
 
     @Override
-    public void ejecutar(){
-
+    public Error ejecutar(){
+        return error;
     }
 }

@@ -14,49 +14,71 @@ import java.util.Queue;
  * @author alumno
  */
 public class Bloque extends Estado{
-
+    
     public Bloque(Queue<Terminal> simbolos) {
         super(simbolos);
         System.out.println(simbolos);
     }
     
-    boolean seguir;
+    private void fVar(){
+        Queue <Terminal> nodos = new LinkedList();
+        nodos.add(Terminal.IDENT);
+        Queue <String> mensajes = new LinkedList();
+        mensajes.add("Se esperaba un identificador");
+        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
+        error = ciclo.run(simbolos);
+    }
+    
+    
+    private void fConst(){
+        Queue <Terminal> nodos = new LinkedList();
+        nodos.add(Terminal.IDENT);
+        nodos.add(Terminal.IGUAL);
+        nodos.add(Terminal.NUMERO);
+        Queue <String> mensajes = new LinkedList();
+        mensajes.add("Se esperaba un identificador");
+        mensajes.add("Se esperaba un igual");
+        mensajes.add("Se esperaba un numero");
+        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
+        error = ciclo.run(simbolos);
+        System.out.println(error);
+        System.out.println(simbolos);
+    }
+    
+    //Terminar
+    private void fProcedure(){
+        System.out.println("PROCEDURE");
+        Queue <Terminal> nodos = new LinkedList();
+        nodos.add(Terminal.IDENT);
+        nodos.add(Terminal.PUNTO_COMA);
+        nodos.add(Terminal.BLOQUE);
+        nodos.add(Terminal.PUNTO_COMA);
+        
+        Queue <String> mensajes = new LinkedList();
+        mensajes.add("Se esperaba un identificador");
+        mensajes.add("Se esperaba un punto y coma");
+        mensajes.add("Se esperaba un bloque");
+        mensajes.add("Se esperaba un punto y coma");
+        Ciclo ciclo = new CicloSaltos(nodos,mensajes,Terminal.CERRADO,Terminal.PUNTO_COMA);
+        Error error = ciclo.run(simbolos);
+        System.out.println(error);
+    }
+    
     @Override
-    public void ejecutar(){
+    public Error ejecutar(){
         switch (simbolos.poll()) {
             case CONST:
-                Queue <Terminal> nodos = new LinkedList();
-                nodos.add(Terminal.IDENT);
-                nodos.add(Terminal.IGUAL);
-                nodos.add(Terminal.NUMERO);
-                Queue <String> mensajes = new LinkedList();
-                mensajes.add("Se esperaba un identificador");
-                mensajes.add("Se esperaba un igual");
-                mensajes.add("Se esperaba un numero");
-                Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
-                ciclo.run(simbolos);
+                fConst();
                 break;
             case VAR:
-                do{
-                    seguir = false;
-                    System.out.println("Comienta el ciclo var");
-                    if (simbolos.poll() == Terminal.IDENT && 
-                        simbolos.poll() == Terminal.IGUAL &&
-                        simbolos.poll() == Terminal.NUMERO){
-                            System.out.println("Termina el ciclo"+simbolos.get(0));
-                    }
-                    if (simbolos.get(0) == Terminal.COMA){
-                        seguir = true;
-                        simbolos.poll();}
-                } while(seguir);
-                if (simbolos.poll() == Terminal.PUNTO_COMA){
-                    System.out.println("termino el ciclo bien");
-                } else System.out.println("Termino el ciclo mal");
+                fVar();
                 break;
             case PROCEDURE:
+                fProcedure();
                 break;
             default:
                 break;
         }
+        return error;
     }
 }

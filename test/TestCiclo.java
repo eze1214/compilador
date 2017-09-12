@@ -98,7 +98,7 @@ public class TestCiclo {
         mensajes.add("Se esperaba un numero");
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
         Error error = ciclo.run(simbolos);
-        assertEquals(error.get(),"Error se esperaba "+ Terminal.PUNTO_COMA);
+        assertEquals(error.get(),"Se esperaba "+ Terminal.PUNTO_COMA);
     }
     
     @Test
@@ -164,9 +164,10 @@ public class TestCiclo {
         mensajes.add("Se esperaba un numero");
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
         Error error = ciclo.run(simbolos);
-        assertEquals(error.get(),"Error se esperaba "+ Terminal.PUNTO_COMA);
+        assertEquals(error.get(),"Se esperaba "+ Terminal.PUNTO_COMA);
     }
-    
+        
+        @Test
         public void testCicloError3(){
         Queue <Terminal> simbolos =  new LinkedList();
         simbolos.add(Terminal.IDENT);
@@ -186,9 +187,27 @@ public class TestCiclo {
         Error error = ciclo.run(simbolos);
         assertEquals(error.get(),"Se esperaba un numero");
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    
+        
+        
+        @Test
+        public void testLineal(){
+        Queue <Terminal> simbolos =  new LinkedList();
+        simbolos.add(Terminal.IDENT);
+        simbolos.add(Terminal.IGUAL);
+        simbolos.add(Terminal.NUMERO);
+        simbolos.add(Terminal.PUNTO_COMA);
+        simbolos.add(Terminal.IGUAL);
+        Queue <Terminal> nodos = new LinkedList();
+        nodos.add(Terminal.IDENT);
+        nodos.add(Terminal.IGUAL);
+        nodos.add(Terminal.NUMERO);
+        Queue <String> mensajes = new LinkedList();
+        mensajes.add("Se esperaba un identificador");
+        mensajes.add("Se esperaba un igual");
+        mensajes.add("Se esperaba un numero");
+        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
+        Error error = ciclo.run(simbolos);
+        assertEquals(error.get(),null);
+    }
 }

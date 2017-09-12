@@ -14,11 +14,12 @@ import java.util.Queue;
  * @author alumno
  */
 abstract public class Estado {
+    
+   protected Error error;
    protected LinkedList <Terminal> simbolos;
    Estado(Queue <Terminal> simbolos){
        this.simbolos = new LinkedList(simbolos);
-       simbolos.addAll(simbolos);
    }
    
-   abstract public void ejecutar();
+   abstract public Error ejecutar();
 }
