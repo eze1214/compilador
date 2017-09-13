@@ -1,12 +1,11 @@
 package analisissintactico.estados;
 
-import common.Terminal;
-import java.util.Queue;
+import analisislexico.AnalizadorLexico;
 
 public class Programa extends Estado{
 
-    public Programa(Queue <Terminal> simbolos) {
-        super(simbolos);
+    public Programa(AnalizadorLexico parser) {
+        super(parser);
     }
 
     @Override

@@ -5,6 +5,7 @@
  */
 package analisissintactico.estados;
 
+import analisislexico.AnalizadorLexico;
 import common.Terminal;
 import static common.Terminal.EXPRESION;
 import java.util.LinkedList;
@@ -73,18 +74,18 @@ public class GeneradorEstados {
 /**
  * Devuelve una lista de estados validos segun la cabeza del comando
  * No cambia la cabeza del comando dentro de comandos
- * @param Lista de comandos
+ * @param terminal lista de comandos
+ * @param parser parser lexico jflex
  * @return Lista de estados que deben ser ejecutados
  */    
-    public Queue <Estado> determinar(Queue <Terminal> comandos){
+    public Queue <Estado> determinar(Terminal terminal,AnalizadorLexico parser){
         Queue estados =  new LinkedList(); 
-        Terminal terminal = comandos.peek();
         if(isBloque(terminal)){
-            Estado estado =  new Bloque(comandos);
+            Estado estado =  new Bloque(parser);
             estados.add(estado);
         }
         if(isProposicion(terminal)){
-            Estado estado = new Proposicion(comandos);
+            Estado estado = new Proposicion(parser);
             estados.add(estado);
         }
         return estados;
@@ -93,20 +94,21 @@ public class GeneradorEstados {
     /**
      * Genera un bloque a partir de una orden dada como un terminal
      * @param t La orden dada por Terminal
+     * @param parser
      * @param comandos comandos que se le pasa por parametro al estado generado
      * @return 
      */
-    public Estado run(Terminal t,Queue <Terminal> comandos){
+    public Estado run(Terminal t,AnalizadorLexico parser){
     Estado estado = null;
      switch (t){
          case BLOQUE: 
-            estado =  new Bloque(comandos);
+            estado =  new Bloque(parser);
             break;
          case PROPOSICION:
-            estado =  new Proposicion(comandos);
+            estado =  new Proposicion(parser);
             break;
          case EXPRESION:
-             estado = new Expresion(comandos);
+             estado = new Expresion(parser);
              break;
         default:
             break;

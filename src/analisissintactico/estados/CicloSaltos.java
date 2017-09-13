@@ -5,8 +5,9 @@
  */
 package analisissintactico.estados;
 
+import analisislexico.AnalizadorLexico;
 import common.Terminal;
-import java.util.LinkedList;
+import java.io.IOException;
 import java.util.Queue;
 
 /**
@@ -17,8 +18,8 @@ public class CicloSaltos extends Ciclo {
     
     private Estado estado;
     GeneradorEstados generador;
-    public CicloSaltos(Queue<Terminal> componentes, Queue<String> mensajes, Terminal cont, Terminal fin) {
-        super(componentes, mensajes, cont, fin);
+    public CicloSaltos(Queue<Terminal> componentes, Queue<String> mensajes, Terminal cont, Terminal fin,AnalizadorLexico parser) {
+        super(componentes, mensajes, cont, fin,parser);
     }
     
     private void ejecutarEstado(){
@@ -31,7 +32,7 @@ public class CicloSaltos extends Ciclo {
     
 
     @Override
-    public Error run(Queue <Terminal> simbolos){
+    public Error run() throws  IOException{
         generador =  new GeneradorEstados();
         System.out.println("Ciclo saltos");
         itComp = componentes.iterator();
@@ -40,21 +41,21 @@ public class CicloSaltos extends Ciclo {
         terminar = false;
         contador = 0;
         
-        while (!simbolos.isEmpty() && !terminar){
+        while ((parser.getT() != Terminal.EOF) && !terminar){
             simbComparar = itComp.next();
-            simbolo = simbolos.poll();
+            simbolo = parser.getT();
             System.out.println(simbComparar);
-            if ((estado = generador.run(simbComparar,simbolos)) != null ) {//TODO no va simbolo va itCOMP.next();
-                insertar(simbolo,simbolos); ;//Lo agrego porque ahora es responsabilidad del estado 
-                estado = generador.run(simbComparar,simbolos);
+            if ((estado = generador.run(simbComparar,parser)) != null ) {//TODO no va simbolo va itCOMP.next(); 
+                //estado = generador.run(simbComparar,simbolos);
                 System.out.println("se ejecuta un estado" + estado.getTipo());
                 ejecutarEstado();
+                contador++;
             } else {
                 
             if (contador < componentes.size()){
                 chequearCiclo();
             } else {
-                decidirSiSeguir(simbolos);
+                decidirSiSeguir();
             }
         }
         }

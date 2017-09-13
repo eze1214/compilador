@@ -5,7 +5,9 @@
  */
 package analisissintactico.estados;
 
+import analisislexico.AnalizadorLexico;
 import common.Terminal;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -90,14 +92,15 @@ public class Ciclo {
     protected Iterator<Terminal> itComp;
     protected Iterator <String> itMsg;
     protected Terminal simbComparar; //Utilizado para leer de la lista de comparadores
-    
-    protected void chequearCiclo(){
+    protected AnalizadorLexico parser;
+    protected void chequearCiclo() throws IOException{
         if (simbolo != simbComparar){
                 error = new Error(itMsg.next());
-                    terminar = true;
+                terminar = true;
                 } else {
                   contador ++;
                   itMsg.next();
+                  parser.escanear();
                 }
     }
     
@@ -110,43 +113,43 @@ public class Ciclo {
         System.out.printf("Despues de insertar " +simbolos);
     }
     
-    protected void decidirSiSeguir(Queue<Terminal> simbolos){
+    protected void decidirSiSeguir() throws IOException{
         if (simbolo == fin){
-                    error = new Error();
+                    error = null;
                     terminar = true;
+                    parser.escanear();
                     } else if(simbolo == cont) {
                     contador = 0; 
+                    parser.escanear();
                     }else if (fin == Terminal.CERRADO){
                        error = null;
-                       insertar(simbolo,simbolos);
                        terminar = true;
                     } else{
                        error = new Error("Se esperaba "+ fin);
-                       insertar(simbolo,simbolos);
                        terminar = true;
                 }
     }
     
-    public  Ciclo(Queue <Terminal> componentes, Queue <String> mensajes, Terminal cont, Terminal fin){
+    public  Ciclo(Queue <Terminal> componentes, Queue <String> mensajes, Terminal cont, Terminal fin,AnalizadorLexico parser){
         this.componentes = new ListaCircular(componentes);
         this.mensajes = new ListaCircular(mensajes);
         this.cont = cont;
         this.fin =  fin;
+        this.parser = parser;
     }
-    public Error run(Queue <Terminal> simbolos){
-        //System.out.println(componentes);
+    public Error run() throws IOException{
         itComp = componentes.iterator();
         itMsg = mensajes.iterator();
         error = new Error();
         terminar = false;
         contador = 0;
-        while (!simbolos.isEmpty() && !terminar){
-            simbolo = simbolos.poll();
+        while ((parser.getT() != Terminal.EOF) && !terminar){
+            simbolo = parser.getT();
             simbComparar = itComp.next();
             if (contador < componentes.size()){
                 chequearCiclo();
             } else {
-                decidirSiSeguir(simbolos);
+                decidirSiSeguir();
             }
         }
         

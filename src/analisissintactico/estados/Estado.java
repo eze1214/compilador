@@ -5,9 +5,7 @@
  */
 package analisissintactico.estados;
 
-import common.Terminal;
-import java.util.LinkedList;
-import java.util.Queue;
+import analisislexico.AnalizadorLexico;
 
 /**
  *
@@ -16,9 +14,9 @@ import java.util.Queue;
 abstract public class Estado {
     
    protected Error error;
-   protected LinkedList <Terminal> simbolos;
-   Estado(Queue <Terminal> simbolos){
-       this.simbolos = new LinkedList(simbolos);
+   protected AnalizadorLexico parser;
+   Estado(AnalizadorLexico parser){
+       this.parser = parser;
    }
    
    public String getTipo(){

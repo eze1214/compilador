@@ -5,9 +5,13 @@
  */
 package analisissintactico.estados;
 
+import analisislexico.AnalizadorLexico;
 import common.Terminal;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,9 +19,8 @@ import java.util.Queue;
  */
 public class Bloque extends Estado{
     
-    public Bloque(Queue<Terminal> simbolos) {
-        super(simbolos);
-        System.out.println(simbolos);
+    public Bloque(AnalizadorLexico parser) {
+        super(parser);
     }
     
     private void fVar(){
@@ -25,8 +28,18 @@ public class Bloque extends Estado{
         nodos.add(Terminal.IDENT);
         Queue <String> mensajes = new LinkedList();
         mensajes.add("Se esperaba un identificador");
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
-        error = ciclo.run(simbolos);
+        try {
+            parser.escanear();
+        } catch (IOException ex) {
+            Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA,parser);
+        try {
+            
+            error = ciclo.run();
+        } catch (IOException ex) {
+            Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     
@@ -39,10 +52,14 @@ public class Bloque extends Estado{
         mensajes.add("Se esperaba un identificador");
         mensajes.add("Se esperaba un igual");
         mensajes.add("Se esperaba un numero");
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
-        error = ciclo.run(simbolos);
+        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA,parser);
+        try {
+            error = ciclo.run();
+        } catch (IOException ex) {
+            Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println(error);
-        System.out.println(simbolos);
+        System.out.println(parser.getT()+" "+parser.getTexto());
     }
     
     //Terminar
@@ -59,14 +76,19 @@ public class Bloque extends Estado{
         mensajes.add("Se esperaba un punto y coma");
         mensajes.add("Se esperaba un bloque");
         mensajes.add("Se esperaba un punto y coma");
-        Ciclo ciclo = new CicloSaltos(nodos,mensajes,Terminal.CERRADO,Terminal.PUNTO_COMA);
-        Error error = ciclo.run(simbolos);
+        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.PUNTO_COMA,parser);
+        try {
+            error = ciclo.run();
+        } catch (IOException ex) {
+            Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println(error);
     }
     
     @Override
     public Error ejecutar(){
-        switch (simbolos.poll()) {
+        System.out.println("parser "+ parser.getT());
+        switch (parser.getT()) {
             case CONST:
                 fConst();
                 break;

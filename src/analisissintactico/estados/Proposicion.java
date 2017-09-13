@@ -5,9 +5,13 @@
  */
 package analisissintactico.estados;
 
+import analisislexico.AnalizadorLexico;
 import common.Terminal;
+import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,8 +19,8 @@ import java.util.Queue;
  */
 public class Proposicion extends Estado {
 
-    public Proposicion(Queue<Terminal> simbolos) {
-        super(simbolos);
+    public Proposicion(AnalizadorLexico parser) {
+        super(parser);
     }
 
     private void fIdent(){
@@ -29,13 +33,17 @@ public class Proposicion extends Estado {
     mensajes.add("Se esperaba una asignacion");
     mensajes.add("Se esperaba una expresion");
 
-    Ciclo ciclo = new CicloSaltos(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO);
-    error = ciclo.run(simbolos);
+    Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO,parser);
+        try {
+            error = ciclo.run();
+        } catch (IOException ex) {
+            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     
     }
     @Override
     public Error ejecutar() {
-        switch (simbolos.poll()) {
+        switch (parser.getT()) {
             case IDENT:
                 fIdent();
                 break;
@@ -64,8 +72,12 @@ public class Proposicion extends Estado {
         Queue <String> mensajes = new LinkedList();
         mensajes.add("Se esperaba una proposicion");
        
-        Ciclo ciclo = new CicloSaltos(nodos,mensajes,Terminal.PUNTO_COMA,Terminal.END);
-        error = ciclo.run(simbolos);
+        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.PUNTO_COMA,Terminal.END,parser);
+        try {
+            error = ciclo.run();
+        } catch (IOException ex) {
+            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private void fCall() {
@@ -75,8 +87,12 @@ public class Proposicion extends Estado {
         Queue <String> mensajes = new LinkedList();
         mensajes.add("Se esperaba una identificador");
 
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO);
-        error = ciclo.run(simbolos);
+        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO,parser);
+        try {
+            error = ciclo.run();
+        } catch (IOException ex) {
+            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void fIf(){

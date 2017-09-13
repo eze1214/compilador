@@ -5,8 +5,7 @@
  */
 package analisissintactico.estados;
 
-import common.Terminal;
-import java.util.Queue;
+import analisislexico.AnalizadorLexico;
 
 /**
  *
@@ -14,8 +13,8 @@ import java.util.Queue;
  */
 public class Expresion extends Estado{
 
-    public Expresion(Queue<Terminal> simbolos) {
-        super(simbolos);
+    public Expresion(AnalizadorLexico parser) {
+        super(parser);
     }
 
     @Override

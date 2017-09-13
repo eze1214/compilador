@@ -1,0 +1,9 @@
+var x ,y;
+procedure INICIAR
+const y = 2;
+procedure asignar;
+x := y;
+call asignar;
+begin
+const z = 2;
+end.
