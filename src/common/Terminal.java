@@ -48,6 +48,6 @@ public enum Terminal {
     /**
      * Salto a un bloque
      */
-    BLOQUE, EXPRESION, PROPOSICION;
+    BLOQUE, EXPRESION, PROPOSICION, CONDICION, DO, TERMINO, FACTOR;
 }
 

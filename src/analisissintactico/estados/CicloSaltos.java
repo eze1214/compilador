@@ -24,9 +24,9 @@ public class CicloSaltos extends Ciclo {
     
     private void ejecutarEstado(){
         error = estado.ejecutar();
-        System.out.println("Error de estado ejecutado");
-        if (error == null){
-            //terminar =  true;
+        System.out.println("Error de estado ejecutado " + error);
+        if (error != null){
+            terminar =  true;
         }
     }
     
@@ -42,12 +42,13 @@ public class CicloSaltos extends Ciclo {
         contador = 0;
         
         while ((parser.getT() != Terminal.EOF) && !terminar){
-            simbComparar = itComp.next();
+            parser.escanear();
             simbolo = parser.getT();
-            System.out.println(simbComparar);
+            simbComparar = itComp.next();
+            //System.out.println("Simbolo "+ simbolo+"Simbolo a comparar "+simbComparar);
+            //System.out.println(simbComparar);
             if ((estado = generador.run(simbComparar,parser,listaErrores)) != null ) {//TODO no va simbolo va itCOMP.next(); 
-                //estado = generador.run(simbComparar,simbolos);
-                System.out.println("se ejecuta un estado" + estado.getTipo());
+                //System.out.println("se ejecuta un estado" + estado.getTipo());
                 ejecutarEstado();
                 contador++;
             } else {

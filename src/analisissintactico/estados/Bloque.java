@@ -58,8 +58,8 @@ public class Bloque extends Estado{
         } catch (IOException ex) {
             Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(error);
-        System.out.println(parser.getT()+" "+parser.getTexto());
+        //System.out.println(error);
+        //System.out.println("Simboo actual desde Bloque " + parser.getT()+" "+ parser.getTexto());
     }
     
     //Terminar
@@ -69,20 +69,19 @@ public class Bloque extends Estado{
         nodos.add(Terminal.IDENT);
         nodos.add(Terminal.PUNTO_COMA);
         nodos.add(Terminal.BLOQUE);
-        nodos.add(Terminal.PUNTO_COMA);
         
         Queue <String> mensajes = new LinkedList();
         mensajes.add("Se esperaba un identificador");
         mensajes.add("Se esperaba un punto y coma");
         mensajes.add("Se esperaba un bloque");
         mensajes.add("Se esperaba un punto y coma");
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.PUNTO_COMA,parser);
+        Ciclo ciclo = new CicloSaltos(nodos,mensajes,Terminal.CERRADO,Terminal.PUNTO_COMA,parser);
         try {
             error = ciclo.run(listaErrores);
         } catch (IOException ex) {
             Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println(error);
+        //System.out.println(error);
     }
     
     @Override
@@ -99,7 +98,12 @@ public class Bloque extends Estado{
                 fProcedure();
                 break;
             default:
-                error = new Error();
+                GeneradorEstados generador =  new GeneradorEstados();
+                if (generador.isProposicion(parser.getT())){
+                    Estado estado = new Proposicion(parser,listaErrores);
+                    error = estado.ejecutar();
+                } else 
+                error = new Error("Se esperaba un bloque");
         }
         return error;
     }

@@ -33,7 +33,7 @@ public class GeneradorEstados {
         TerminalesBloque.add(Terminal.VAR);
     }
     
-    private boolean isBloque(Terminal terminal){
+    public boolean isBloque(Terminal terminal){
         boolean result = false;
         switch(terminal){
             case CONST:
@@ -48,7 +48,7 @@ public class GeneradorEstados {
         return result;
     }
     
-    private boolean isProposicion(Terminal terminal){
+    public boolean isProposicion(Terminal terminal){
         boolean result = false;
         switch(terminal){
             case IDENT:
@@ -58,6 +58,16 @@ public class GeneradorEstados {
             case WHILE:
                 result = true;
                 break;
+        }
+        return result;
+    }
+    
+    public boolean isExpresion(Terminal terminal){
+        boolean result =  false;
+        switch(terminal){
+            case MAS:
+            case MENOS:
+        result = true;
         }
         return result;
     }
@@ -77,6 +87,7 @@ public class GeneradorEstados {
  * @param parser parser lexico jflex
  * @return Lista de estados que deben ser ejecutados
  */    
+    //Discontinuada borrar en algun momento
     public Queue <Estado> determinar(Terminal terminal,AnalizadorLexico parser, Queue <Error> listaErrores){
         Queue estados =  new LinkedList(); 
         if(isBloque(terminal)){
@@ -108,6 +119,15 @@ public class GeneradorEstados {
             break;
          case EXPRESION:
              estado = new Expresion(parser,listaErrores);
+             break;
+         case CONDICION:
+             estado  = new Condicion(parser,listaErrores);
+             break;
+         case TERMINO:
+             estado = new Termino(parser,listaErrores);
+             break;
+         case FACTOR:
+             estado = new Factor(parser,listaErrores);
              break;
         default:
             break;

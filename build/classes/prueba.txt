@@ -1,3 +1,4 @@
-const M = 7 , N = 85;
-const M = 7 , N = 85;
-
+procedure a;
+const b = 5;
+;
+.

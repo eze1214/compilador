@@ -142,6 +142,7 @@ public class Ciclo {
             parser.escanear();
             simbolo = parser.getT();
             simbComparar = itComp.next();
+            //System.out.println("Simbolo "+ simbolo + " Simbolo a comparar " + simbComparar);
             if (contador < componentes.size()){
                 chequearCiclo();
             } else {

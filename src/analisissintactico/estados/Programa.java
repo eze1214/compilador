@@ -13,42 +13,29 @@ public class Programa extends Estado{
         super(parser, listaErrores);
     }
 
+    
     @Override
     public Error ejecutar(){
   
+        
         try {
-            Terminal prueba;
             parser.escanear();
-            do{
-                
-                
+            while ((parser.getT() != Terminal.PUNTO) && (parser.getT() != Terminal.EOF)){
                 Estado estado = new Bloque(parser,listaErrores);
-                
-                prueba = parser.getT();
-                if(parser.getT() == Terminal.SALTO_LINEA ){
-                    parser.escanear();
-                }
+                System.out.println("Leido "+parser.getT()+" En linea "+parser.getLine());
                 error = estado.ejecutar();
-                prueba = parser.getT();
                 if (error == null){
                     parser.escanear();
-                }
-                prueba = parser.getT();
-                listaErrores.add(error);
-                if(parser.getT() == Terminal.SALTO_LINEA ){
-                    parser.escanear();
-                }
-            }while(parser.getT() != Terminal.PUNTO && parser.getT() != Terminal.EOF);
-             } catch (IOException ex) {
-                Logger.getLogger(Programa.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            if (parser.getT() != Terminal.PUNTO){
+                } else
+                    listaErrores.add(error);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Programa.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (parser.getT() != Terminal.PUNTO){
                 listaErrores.add (new Error("Se esperaba un punto"));
             }
             System.out.println("Final de errores " + listaErrores);
             return null;
-       
-        
     }
-    
 }

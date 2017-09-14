@@ -67,7 +67,16 @@ public class Proposicion extends Estado {
 
     private void fBegin() {
         Queue <Terminal> nodos = new LinkedList();
-        nodos.add(Terminal.PROPOSICION);
+        Estado estado = new Proposicion(parser,listaErrores);
+        error = estado.ejecutar();
+        if (error != null){
+            try {
+                parser.escanear();
+            } catch (IOException ex) {
+                Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            nodos.add(Terminal.PUNTO_COMA);
+            nodos.add(Terminal.PROPOSICION);
         
         Queue <String> mensajes = new LinkedList();
         mensajes.add("Se esperaba una proposicion");
@@ -78,7 +87,7 @@ public class Proposicion extends Estado {
         } catch (IOException ex) {
             Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }}
 
     private void fCall() {
         Queue <Terminal> nodos = new LinkedList();
@@ -96,10 +105,40 @@ public class Proposicion extends Estado {
     }
     
     private void fIf(){
+        Queue nodos = new LinkedList();
+        nodos.add(Terminal.CONDICION);
+        nodos.add(Terminal.THEN);
+        nodos.add(Terminal.PROPOSICION);
         
+        Queue mensajes = new LinkedList();
+        mensajes.add("Se esperaba una condicion");
+        mensajes.add("Se esperaba un THEN");
+        mensajes.add("Se esperaba una proposicion");
+        
+        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO,parser);
+        try {
+            error = ciclo.run(listaErrores);
+        } catch (IOException ex) {
+            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void fWhile(){
+        Queue nodos = new LinkedList();
+        nodos.add(Terminal.CONDICION);
+        nodos.add(Terminal.DO);
+        nodos.add(Terminal.PROPOSICION);
         
+        Queue mensajes = new LinkedList();
+        mensajes.add("Se esperaba una condicion");
+        mensajes.add("Se esperaba un DO");
+        mensajes.add("Se esperaba una proposicion");
+        
+        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO,parser);
+        try {
+            error = ciclo.run(listaErrores);
+        } catch (IOException ex) {
+            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

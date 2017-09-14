@@ -1,4 +1,5 @@
 package analisislexico;
+import common.Terminal;
 /* Sección de declaraciones de JFlex */
 %%
 %public
@@ -25,12 +26,14 @@ whiteSpace = {lineTerminator} | [ \t\f]
     public Terminal getT(){
         return t;
     }
+
+    public Integer getLine(){
+        return yyline;
+    }
 %}
 
 %%
-{lineTerminator} {
-    t = Terminal.SALTO_LINEA; return t;
-}
+{lineTerminator} {}
 {whiteSpace} {}
 
 "(" {t = Terminal.ABRE_PARENTESIS; return t;}
@@ -59,6 +62,7 @@ whiteSpace = {lineTerminator} | [ \t\f]
 "procedure" {t = Terminal.PROCEDURE; return t;}
  "call" {t = Terminal.CALL; return t;}
 "then" {t = Terminal.THEN; return t;}
+"do" {t = Terminal.DO; return t;}
 "readln" {t = Terminal.READLN; return t;}
 "writeln" {t = Terminal.WRITELN; return t;}
 "write" {t = Terminal.WRITE; return t;} 
