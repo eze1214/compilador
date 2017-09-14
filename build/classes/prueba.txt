@@ -1,9 +1,3 @@
-var x ,y;
-procedure INICIAR
-const y = 2;
-procedure asignar;
-x := y;
-call asignar;
-begin
-const z = 2;
-end.
+const M = 7 , N = 85;
+const M = 7 , N = 85;
+

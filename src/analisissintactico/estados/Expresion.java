@@ -6,6 +6,7 @@
 package analisissintactico.estados;
 
 import analisislexico.AnalizadorLexico;
+import java.util.Queue;
 
 /**
  *
@@ -13,8 +14,8 @@ import analisislexico.AnalizadorLexico;
  */
 public class Expresion extends Estado{
 
-    public Expresion(AnalizadorLexico parser) {
-        super(parser);
+    public Expresion(AnalizadorLexico parser, Queue<Error> listaErrores) {
+        super(parser, listaErrores);
     }
 
     @Override

@@ -48,6 +48,7 @@ whiteSpace = {lineTerminator} | [ \t\f]
 ":=" {t = Terminal.ASIGNACION; return t;}
 ";" {t = Terminal.PUNTO_COMA; return t;}
 "," {t = Terminal.COMA; return t;}
+"." {t = Terminal.PUNTO; return t;}
 "VAR" {t = Terminal.VAR; return t;}
 "if" {t = Terminal.IF; return t;}
 "while" {t = Terminal.WHILE; return t;}

@@ -39,7 +39,7 @@ public enum Terminal {
     WRITELN,
     WRITE,
     EOF,
-
+    PUNTO,
     /**
      *Reservadopara que no haya ciclos
      */

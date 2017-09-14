@@ -7,7 +7,6 @@ package analisissintactico.estados;
 
 import analisislexico.AnalizadorLexico;
 import common.Terminal;
-import static common.Terminal.EXPRESION;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -78,14 +77,14 @@ public class GeneradorEstados {
  * @param parser parser lexico jflex
  * @return Lista de estados que deben ser ejecutados
  */    
-    public Queue <Estado> determinar(Terminal terminal,AnalizadorLexico parser){
+    public Queue <Estado> determinar(Terminal terminal,AnalizadorLexico parser, Queue <Error> listaErrores){
         Queue estados =  new LinkedList(); 
         if(isBloque(terminal)){
-            Estado estado =  new Bloque(parser);
+            Estado estado =  new Bloque(parser,listaErrores);
             estados.add(estado);
         }
         if(isProposicion(terminal)){
-            Estado estado = new Proposicion(parser);
+            Estado estado = new Proposicion(parser,listaErrores);
             estados.add(estado);
         }
         return estados;
@@ -95,20 +94,20 @@ public class GeneradorEstados {
      * Genera un bloque a partir de una orden dada como un terminal
      * @param t La orden dada por Terminal
      * @param parser
-     * @param comandos comandos que se le pasa por parametro al estado generado
+     * @param listaErrores 
      * @return 
      */
-    public Estado run(Terminal t,AnalizadorLexico parser){
+    public Estado run(Terminal t,AnalizadorLexico parser, Queue <Error> listaErrores){
     Estado estado = null;
      switch (t){
          case BLOQUE: 
-            estado =  new Bloque(parser);
+            estado =  new Bloque(parser,listaErrores);
             break;
          case PROPOSICION:
-            estado =  new Proposicion(parser);
+            estado =  new Proposicion(parser,listaErrores);
             break;
          case EXPRESION:
-             estado = new Expresion(parser);
+             estado = new Expresion(parser,listaErrores);
              break;
         default:
             break;

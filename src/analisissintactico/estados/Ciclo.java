@@ -31,7 +31,7 @@ public class Ciclo {
         ListaCircular(Queue <T> componentes){
             this.componentes = componentes;
         }
-        private class IteratorCircular<T> implements Iterator<T>{
+        public class IteratorCircular<T> implements Iterator<T>{
         private Integer pos;
         public Iterator<Terminal> it;
         
@@ -42,6 +42,10 @@ public class Ciclo {
 
         public Integer getPos(){
             return pos;
+        }
+        
+        public void reset(){
+            it =  (Iterator<Terminal>) componentes.iterator();
         }
         
         public T get(int pos){
@@ -93,6 +97,7 @@ public class Ciclo {
     protected Iterator <String> itMsg;
     protected Terminal simbComparar; //Utilizado para leer de la lista de comparadores
     protected AnalizadorLexico parser;
+    
     protected void chequearCiclo() throws IOException{
         if (simbolo != simbComparar){
                 error = new Error(itMsg.next());
@@ -100,27 +105,17 @@ public class Ciclo {
                 } else {
                   contador ++;
                   itMsg.next();
-                  parser.escanear();
                 }
     }
     
-    protected void insertar (Terminal t, Queue<Terminal> simbolos){
-        Queue <Terminal> aux = new LinkedList();
-        aux.add(t);
-        aux.addAll(simbolos);
-        simbolos.removeAll(aux);
-        simbolos.addAll(aux);
-        System.out.printf("Despues de insertar " +simbolos);
-    }
     
     protected void decidirSiSeguir() throws IOException{
         if (simbolo == fin){
                     error = null;
                     terminar = true;
-                    parser.escanear();
                     } else if(simbolo == cont) {
-                    contador = 0; 
-                    parser.escanear();
+                    contador = 0;
+                    itComp = componentes.iterator();
                     }else if (fin == Terminal.CERRADO){
                        error = null;
                        terminar = true;
@@ -137,13 +132,14 @@ public class Ciclo {
         this.fin =  fin;
         this.parser = parser;
     }
-    public Error run() throws IOException{
+    public Error run(Queue <Error> listaErrores) throws IOException{
         itComp = componentes.iterator();
         itMsg = mensajes.iterator();
         error = new Error();
         terminar = false;
         contador = 0;
         while ((parser.getT() != Terminal.EOF) && !terminar){
+            parser.escanear();
             simbolo = parser.getT();
             simbComparar = itComp.next();
             if (contador < componentes.size()){

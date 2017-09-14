@@ -19,8 +19,8 @@ import java.util.logging.Logger;
  */
 public class Proposicion extends Estado {
 
-    public Proposicion(AnalizadorLexico parser) {
-        super(parser);
+    public Proposicion(AnalizadorLexico parser, Queue<Error> listaErrores) {
+        super(parser, listaErrores);
     }
 
     private void fIdent(){
@@ -35,7 +35,7 @@ public class Proposicion extends Estado {
 
     Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO,parser);
         try {
-            error = ciclo.run();
+            error = ciclo.run(listaErrores);
         } catch (IOException ex) {
             Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -74,7 +74,7 @@ public class Proposicion extends Estado {
        
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.PUNTO_COMA,Terminal.END,parser);
         try {
-            error = ciclo.run();
+            error = ciclo.run(listaErrores);
         } catch (IOException ex) {
             Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -89,7 +89,7 @@ public class Proposicion extends Estado {
 
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO,parser);
         try {
-            error = ciclo.run();
+            error = ciclo.run(listaErrores);
         } catch (IOException ex) {
             Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
         }

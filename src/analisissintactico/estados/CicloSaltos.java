@@ -32,7 +32,7 @@ public class CicloSaltos extends Ciclo {
     
 
     @Override
-    public Error run() throws  IOException{
+    public Error run(Queue <Error> listaErrores) throws  IOException{
         generador =  new GeneradorEstados();
         System.out.println("Ciclo saltos");
         itComp = componentes.iterator();
@@ -45,7 +45,7 @@ public class CicloSaltos extends Ciclo {
             simbComparar = itComp.next();
             simbolo = parser.getT();
             System.out.println(simbComparar);
-            if ((estado = generador.run(simbComparar,parser)) != null ) {//TODO no va simbolo va itCOMP.next(); 
+            if ((estado = generador.run(simbComparar,parser,listaErrores)) != null ) {//TODO no va simbolo va itCOMP.next(); 
                 //estado = generador.run(simbComparar,simbolos);
                 System.out.println("se ejecuta un estado" + estado.getTipo());
                 ejecutarEstado();

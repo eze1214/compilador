@@ -6,6 +6,7 @@
 package analisissintactico.estados;
 
 import analisislexico.AnalizadorLexico;
+import java.util.Queue;
 
 /**
  *
@@ -15,8 +16,10 @@ abstract public class Estado {
     
    protected Error error;
    protected AnalizadorLexico parser;
-   Estado(AnalizadorLexico parser){
+   protected Queue listaErrores;
+   Estado(AnalizadorLexico parser, Queue <Error> listaErrores){
        this.parser = parser;
+       this.listaErrores = listaErrores;
    }
    
    public String getTipo(){

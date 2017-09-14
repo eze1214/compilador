@@ -41,173 +41,173 @@ public class TestCiclo {
     public void tearDown() {
     }
 
-    @Test
-    public void testCiclo(){
-        Queue <Terminal> simbolos =  new LinkedList();
-        simbolos.add(Terminal.IDENT);
-        simbolos.add(Terminal.IGUAL);
-        simbolos.add(Terminal.NUMERO);
-        simbolos.add(Terminal.PUNTO_COMA);
-        Queue <Terminal> nodos = new LinkedList();
-        nodos.add(Terminal.IDENT);
-        nodos.add(Terminal.IGUAL);
-        nodos.add(Terminal.NUMERO);
-        Queue <String> mensajes = new LinkedList();
-        mensajes.add("Se esperaba un identificador");
-        mensajes.add("Se esperaba un igual");
-        mensajes.add("Se esperaba un numero");
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
-        Error error = ciclo.run(simbolos);
-        assertEquals(error.get(),null);
-    }
-    
-    @Test
-    public void testCicloConError(){
-        Queue <Terminal> simbolos =  new LinkedList();
-        simbolos.add(Terminal.IGUAL);
-        simbolos.add(Terminal.IGUAL);
-        simbolos.add(Terminal.NUMERO);
-        simbolos.add(Terminal.PUNTO_COMA);
-        Queue <Terminal> nodos = new LinkedList();
-        nodos.add(Terminal.IDENT);
-        nodos.add(Terminal.IGUAL);
-        nodos.add(Terminal.NUMERO);
-        Queue <String> mensajes = new LinkedList();
-        mensajes.add("Se esperaba un identificador");
-        mensajes.add("Se esperaba un igual");
-        mensajes.add("Se esperaba un numero");
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
-        Error error = ciclo.run(simbolos);
-        assertEquals(error.get(),"Se esperaba un identificador");
-    }
-    
-    @Test
-    public void testCicloConAlFinal(){
-        Queue <Terminal> simbolos =  new LinkedList();
-        simbolos.add(Terminal.IDENT);
-        simbolos.add(Terminal.IGUAL);
-        simbolos.add(Terminal.NUMERO);
-        simbolos.add(Terminal.NUMERO);
-        Queue <Terminal> nodos = new LinkedList();
-        nodos.add(Terminal.IDENT);
-        nodos.add(Terminal.IGUAL);
-        nodos.add(Terminal.NUMERO);
-        Queue <String> mensajes = new LinkedList();
-        mensajes.add("Se esperaba un identificador");
-        mensajes.add("Se esperaba un igual");
-        mensajes.add("Se esperaba un numero");
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
-        Error error = ciclo.run(simbolos);
-        assertEquals(error.get(),"Se esperaba "+ Terminal.PUNTO_COMA);
-    }
-    
-    @Test
-    public void testCicloError1(){
-        Queue <Terminal> simbolos =  new LinkedList();
-        simbolos.add(Terminal.IGUAL);
-        simbolos.add(Terminal.IGUAL);
-        simbolos.add(Terminal.NUMERO);
-        simbolos.add(Terminal.COMA);
-        simbolos.add(Terminal.NUMERO);
-        Queue <Terminal> nodos = new LinkedList();
-        nodos.add(Terminal.IDENT);
-        nodos.add(Terminal.IGUAL);
-        nodos.add(Terminal.NUMERO);
-        Queue <String> mensajes = new LinkedList();
-        mensajes.add("Se esperaba un identificador");
-        mensajes.add("Se esperaba un igual");
-        mensajes.add("Se esperaba un numero");
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
-        Error error = ciclo.run(simbolos);
-        assertEquals(error.get(),"Se esperaba un identificador");
-    }
-    
-        @Test
-    public void testCicloError1UnaVuelta(){
-        Queue <Terminal> simbolos =  new LinkedList();
-        simbolos.add(Terminal.IDENT);
-        simbolos.add(Terminal.IGUAL);
-        simbolos.add(Terminal.NUMERO);
-        simbolos.add(Terminal.COMA);
-        simbolos.add(Terminal.NUMERO);
-        Queue <Terminal> nodos = new LinkedList();
-        nodos.add(Terminal.IDENT);
-        nodos.add(Terminal.IGUAL);
-        nodos.add(Terminal.NUMERO);
-        Queue <String> mensajes = new LinkedList();
-        mensajes.add("Se esperaba un identificador");
-        mensajes.add("Se esperaba un igual");
-        mensajes.add("Se esperaba un numero");
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
-        Error error = ciclo.run(simbolos);
-        assertEquals(error.get(),"Se esperaba un identificador");
-    }
-
-
-    
-    
-        @Test
-    public void testCicloErrorFaltaComa(){
-        Queue <Terminal> simbolos =  new LinkedList();
-        simbolos.add(Terminal.IDENT);
-        simbolos.add(Terminal.IGUAL);
-        simbolos.add(Terminal.NUMERO);
-        simbolos.add(Terminal.NUMERO);
-        simbolos.add(Terminal.NUMERO);
-        Queue <Terminal> nodos = new LinkedList();
-        nodos.add(Terminal.IDENT);
-        nodos.add(Terminal.IGUAL);
-        nodos.add(Terminal.NUMERO);
-        Queue <String> mensajes = new LinkedList();
-        mensajes.add("Se esperaba un identificador");
-        mensajes.add("Se esperaba un igual");
-        mensajes.add("Se esperaba un numero");
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
-        Error error = ciclo.run(simbolos);
-        assertEquals(error.get(),"Se esperaba "+ Terminal.PUNTO_COMA);
-    }
-        
-        @Test
-        public void testCicloError3(){
-        Queue <Terminal> simbolos =  new LinkedList();
-        simbolos.add(Terminal.IDENT);
-        simbolos.add(Terminal.IGUAL);
-        simbolos.add(Terminal.IGUAL);
-        simbolos.add(Terminal.COMA);
-        simbolos.add(Terminal.NUMERO);
-        Queue <Terminal> nodos = new LinkedList();
-        nodos.add(Terminal.IDENT);
-        nodos.add(Terminal.IGUAL);
-        nodos.add(Terminal.NUMERO);
-        Queue <String> mensajes = new LinkedList();
-        mensajes.add("Se esperaba un identificador");
-        mensajes.add("Se esperaba un igual");
-        mensajes.add("Se esperaba un numero");
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
-        Error error = ciclo.run(simbolos);
-        assertEquals(error.get(),"Se esperaba un numero");
-    }
-    
-        
-        
-        @Test
-        public void testLineal(){
-        Queue <Terminal> simbolos =  new LinkedList();
-        simbolos.add(Terminal.IDENT);
-        simbolos.add(Terminal.IGUAL);
-        simbolos.add(Terminal.NUMERO);
-        simbolos.add(Terminal.PUNTO_COMA);
-        simbolos.add(Terminal.IGUAL);
-        Queue <Terminal> nodos = new LinkedList();
-        nodos.add(Terminal.IDENT);
-        nodos.add(Terminal.IGUAL);
-        nodos.add(Terminal.NUMERO);
-        Queue <String> mensajes = new LinkedList();
-        mensajes.add("Se esperaba un identificador");
-        mensajes.add("Se esperaba un igual");
-        mensajes.add("Se esperaba un numero");
-        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
-        Error error = ciclo.run(simbolos);
-        assertEquals(error.get(),null);
-    }
+//    @Test
+//    public void testCiclo(){
+//        Queue <Terminal> simbolos =  new LinkedList();
+//        simbolos.add(Terminal.IDENT);
+//        simbolos.add(Terminal.IGUAL);
+//        simbolos.add(Terminal.NUMERO);
+//        simbolos.add(Terminal.PUNTO_COMA);
+//        Queue <Terminal> nodos = new LinkedList();
+//        nodos.add(Terminal.IDENT);
+//        nodos.add(Terminal.IGUAL);
+//        nodos.add(Terminal.NUMERO);
+//        Queue <String> mensajes = new LinkedList();
+//        mensajes.add("Se esperaba un identificador");
+//        mensajes.add("Se esperaba un igual");
+//        mensajes.add("Se esperaba un numero");
+//        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
+//        Error error = ciclo.run(simbolos);
+//        assertEquals(error.get(),null);
+//    }
+//    
+//    @Test
+//    public void testCicloConError(){
+//        Queue <Terminal> simbolos =  new LinkedList();
+//        simbolos.add(Terminal.IGUAL);
+//        simbolos.add(Terminal.IGUAL);
+//        simbolos.add(Terminal.NUMERO);
+//        simbolos.add(Terminal.PUNTO_COMA);
+//        Queue <Terminal> nodos = new LinkedList();
+//        nodos.add(Terminal.IDENT);
+//        nodos.add(Terminal.IGUAL);
+//        nodos.add(Terminal.NUMERO);
+//        Queue <String> mensajes = new LinkedList();
+//        mensajes.add("Se esperaba un identificador");
+//        mensajes.add("Se esperaba un igual");
+//        mensajes.add("Se esperaba un numero");
+//        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
+//        Error error = ciclo.run(simbolos);
+//        assertEquals(error.get(),"Se esperaba un identificador");
+//    }
+//    
+//    @Test
+//    public void testCicloConAlFinal(){
+//        Queue <Terminal> simbolos =  new LinkedList();
+//        simbolos.add(Terminal.IDENT);
+//        simbolos.add(Terminal.IGUAL);
+//        simbolos.add(Terminal.NUMERO);
+//        simbolos.add(Terminal.NUMERO);
+//        Queue <Terminal> nodos = new LinkedList();
+//        nodos.add(Terminal.IDENT);
+//        nodos.add(Terminal.IGUAL);
+//        nodos.add(Terminal.NUMERO);
+//        Queue <String> mensajes = new LinkedList();
+//        mensajes.add("Se esperaba un identificador");
+//        mensajes.add("Se esperaba un igual");
+//        mensajes.add("Se esperaba un numero");
+//        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
+//        Error error = ciclo.run(simbolos);
+//        assertEquals(error.get(),"Se esperaba "+ Terminal.PUNTO_COMA);
+//    }
+//    
+//    @Test
+//    public void testCicloError1(){
+//        Queue <Terminal> simbolos =  new LinkedList();
+//        simbolos.add(Terminal.IGUAL);
+//        simbolos.add(Terminal.IGUAL);
+//        simbolos.add(Terminal.NUMERO);
+//        simbolos.add(Terminal.COMA);
+//        simbolos.add(Terminal.NUMERO);
+//        Queue <Terminal> nodos = new LinkedList();
+//        nodos.add(Terminal.IDENT);
+//        nodos.add(Terminal.IGUAL);
+//        nodos.add(Terminal.NUMERO);
+//        Queue <String> mensajes = new LinkedList();
+//        mensajes.add("Se esperaba un identificador");
+//        mensajes.add("Se esperaba un igual");
+//        mensajes.add("Se esperaba un numero");
+//        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
+//        Error error = ciclo.run(simbolos);
+//        assertEquals(error.get(),"Se esperaba un identificador");
+//    }
+//    
+//        @Test
+//    public void testCicloError1UnaVuelta(){
+//        Queue <Terminal> simbolos =  new LinkedList();
+//        simbolos.add(Terminal.IDENT);
+//        simbolos.add(Terminal.IGUAL);
+//        simbolos.add(Terminal.NUMERO);
+//        simbolos.add(Terminal.COMA);
+//        simbolos.add(Terminal.NUMERO);
+//        Queue <Terminal> nodos = new LinkedList();
+//        nodos.add(Terminal.IDENT);
+//        nodos.add(Terminal.IGUAL);
+//        nodos.add(Terminal.NUMERO);
+//        Queue <String> mensajes = new LinkedList();
+//        mensajes.add("Se esperaba un identificador");
+//        mensajes.add("Se esperaba un igual");
+//        mensajes.add("Se esperaba un numero");
+//        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
+//        Error error = ciclo.run(simbolos);
+//        assertEquals(error.get(),"Se esperaba un identificador");
+//    }
+//
+//
+//    
+//    
+//        @Test
+//    public void testCicloErrorFaltaComa(){
+//        Queue <Terminal> simbolos =  new LinkedList();
+//        simbolos.add(Terminal.IDENT);
+//        simbolos.add(Terminal.IGUAL);
+//        simbolos.add(Terminal.NUMERO);
+//        simbolos.add(Terminal.NUMERO);
+//        simbolos.add(Terminal.NUMERO);
+//        Queue <Terminal> nodos = new LinkedList();
+//        nodos.add(Terminal.IDENT);
+//        nodos.add(Terminal.IGUAL);
+//        nodos.add(Terminal.NUMERO);
+//        Queue <String> mensajes = new LinkedList();
+//        mensajes.add("Se esperaba un identificador");
+//        mensajes.add("Se esperaba un igual");
+//        mensajes.add("Se esperaba un numero");
+//        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
+//        Error error = ciclo.run(simbolos);
+//        assertEquals(error.get(),"Se esperaba "+ Terminal.PUNTO_COMA);
+//    }
+//        
+//        @Test
+//        public void testCicloError3(){
+//        Queue <Terminal> simbolos =  new LinkedList();
+//        simbolos.add(Terminal.IDENT);
+//        simbolos.add(Terminal.IGUAL);
+//        simbolos.add(Terminal.IGUAL);
+//        simbolos.add(Terminal.COMA);
+//        simbolos.add(Terminal.NUMERO);
+//        Queue <Terminal> nodos = new LinkedList();
+//        nodos.add(Terminal.IDENT);
+//        nodos.add(Terminal.IGUAL);
+//        nodos.add(Terminal.NUMERO);
+//        Queue <String> mensajes = new LinkedList();
+//        mensajes.add("Se esperaba un identificador");
+//        mensajes.add("Se esperaba un igual");
+//        mensajes.add("Se esperaba un numero");
+//        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
+//        Error error = ciclo.run(simbolos);
+//        assertEquals(error.get(),"Se esperaba un numero");
+//    }
+//    
+//        
+//        
+//        @Test
+//        public void testLineal(){
+//        Queue <Terminal> simbolos =  new LinkedList();
+//        simbolos.add(Terminal.IDENT);
+//        simbolos.add(Terminal.IGUAL);
+//        simbolos.add(Terminal.NUMERO);
+//        simbolos.add(Terminal.PUNTO_COMA);
+//        simbolos.add(Terminal.IGUAL);
+//        Queue <Terminal> nodos = new LinkedList();
+//        nodos.add(Terminal.IDENT);
+//        nodos.add(Terminal.IGUAL);
+//        nodos.add(Terminal.NUMERO);
+//        Queue <String> mensajes = new LinkedList();
+//        mensajes.add("Se esperaba un identificador");
+//        mensajes.add("Se esperaba un igual");
+//        mensajes.add("Se esperaba un numero");
+//        Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA);
+//        Error error = ciclo.run(simbolos);
+//        assertEquals(error.get(),null);
+//    }
 }

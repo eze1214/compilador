@@ -18,9 +18,9 @@ import java.util.logging.Logger;
  * @author alumno
  */
 public class Bloque extends Estado{
-    
-    public Bloque(AnalizadorLexico parser) {
-        super(parser);
+
+    public Bloque(AnalizadorLexico parser, Queue<Error> listaErrores) {
+        super(parser, listaErrores);
     }
     
     private void fVar(){
@@ -36,7 +36,7 @@ public class Bloque extends Estado{
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA,parser);
         try {
             
-            error = ciclo.run();
+            error = ciclo.run(listaErrores);
         } catch (IOException ex) {
             Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -54,7 +54,7 @@ public class Bloque extends Estado{
         mensajes.add("Se esperaba un numero");
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA,parser);
         try {
-            error = ciclo.run();
+            error = ciclo.run(listaErrores);
         } catch (IOException ex) {
             Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -78,7 +78,7 @@ public class Bloque extends Estado{
         mensajes.add("Se esperaba un punto y coma");
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.PUNTO_COMA,parser);
         try {
-            error = ciclo.run();
+            error = ciclo.run(listaErrores);
         } catch (IOException ex) {
             Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
         }
