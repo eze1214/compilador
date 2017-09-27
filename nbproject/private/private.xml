@@ -17,9 +17,11 @@
             <file>file:/F:/usuarios/alumno/Documentos/NetBeansProjects/AnalisisSintactico/src/analisislexico/TokenPersonalizado.java</file>
             <file>file:/F:/usuarios/alumno/Documentos/NetBeansProjects/AnalisisSintactico/src/analisislexico/AnalizadorLexico.java</file>
             <file>file:/F:/usuarios/alumno/Documentos/NetBeansProjects/AnalisisSintactico/src/common/Terminal.java</file>
+            <file>file:/F:/usuarios/alumno/Documentos/NetBeansProjects/AnalisisSintactico/src/analisissintactico/estados/Factor.java</file>
             <file>file:/F:/usuarios/alumno/Documentos/NetBeansProjects/AnalisisSintactico/src/analisissintactico/estados/Proposicion.java</file>
             <file>file:/F:/usuarios/alumno/Documentos/NetBeansProjects/AnalisisSintactico/src/analisissintactico/estados/Ciclo.java</file>
             <file>file:/F:/usuarios/alumno/Documentos/NetBeansProjects/AnalisisSintactico/src/analisissintactico/estados/Bloque.java</file>
+            <file>file:/F:/usuarios/alumno/Documentos/NetBeansProjects/AnalisisSintactico/src/analisissintactico/estados/Termino.java</file>
         </group>
     </open-files>
 </project-private>
