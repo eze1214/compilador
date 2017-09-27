@@ -6,7 +6,11 @@
 package analisissintactico.estados;
 
 import analisislexico.AnalizadorLexico;
+import common.Terminal;
+import java.io.IOException;
 import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -17,10 +21,38 @@ public class Expresion extends Estado{
     public Expresion(AnalizadorLexico parser, Queue<Error> listaErrores) {
         super(parser, listaErrores);
     }
-
+    
+    private void fMasMenos() throws IOException{
+            Estado estado = new Termino(parser,listaErrores);
+            error = estado.ejecutar();
+            if (error != null) {
+                parser.escanear();
+                switch(parser.getT()){
+                    case MAS:
+                    case MENOS:
+                        fMasMenos();
+                    break;
+                }
+            }
+    }
+    
     @Override
-    public Error ejecutar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Error ejecutar(){
+        switch (parser.getT()) {
+            case MAS:
+            case MENOS:
+        {
+            try {
+                fMasMenos();
+            } catch (IOException ex) {
+                Logger.getLogger(Expresion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+                break;
+            default:
+            error = new Error("Se esperaba un + o -");
+        }
+        return error;
     }
     
 }
