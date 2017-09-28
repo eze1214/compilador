@@ -36,9 +36,10 @@ public class Termino extends Estado {
                     case DIVIDIDO:
                         ejecutar();
                         break;
+                    default:
+                        break;
                 }
         }
-        
         return error;
     }
 }

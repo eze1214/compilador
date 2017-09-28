@@ -59,6 +59,15 @@ public class Proposicion extends Estado {
             case WHILE:
                 fWhile();
                 break;
+            case READLN:
+                fReadln();
+                break;
+            case WRITELN:
+                fWriteln();
+                break;
+            case WRITE:
+                fWrite();
+                break;
             default:
                 break;
         }
@@ -137,6 +146,81 @@ public class Proposicion extends Estado {
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO,parser);
         try {
             error = ciclo.run(listaErrores);
+        } catch (IOException ex) {
+            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void fReadln() {
+        boolean terminar = false;
+        try {
+            parser.escanear();
+         
+        if(parser.getT() == Terminal.ABRE_PARENTESIS){
+            parser.escanear();
+            if (parser.getT() == Terminal.IDENT){
+                while (!terminar){
+                    if (parser.getT() == Terminal.COMA){
+                        parser.escanear();
+                        if (parser.getT() == Terminal.IDENT){
+                            parser.escanear();
+                            if (parser.getT() == Terminal.CIERRA_PARENTESIS){
+                                terminar = true;
+                            }
+                        } else {
+                            error = new Error("Se esperaba un identificador");
+                            terminar = true;
+                        }
+                    } else {
+                        error =  new Error("Se esperaba una coma");
+                        terminar = true;
+                    }
+                }
+            }
+        }
+        }
+        catch (IOException ex) {
+            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void fWriteln() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    private void fWrite() {
+        boolean seguir = false;
+        try { 
+            parser.escanear();
+            if (parser.getT() == Terminal.ABRE_PARENTESIS){
+                parser.escanear();
+                if (parser.getT() == Terminal.CADENA_TEXTO){
+                    seguir = true;
+                } else {
+                    Estado estado = new Expresion (parser,listaErrores);
+                    if (estado.ejecutar() != null){
+                        seguir = true;
+                    } 
+                }
+                 
+            }
+            while(seguir){
+                parser.escanear();
+                if (parser.getT() == Terminal.COMA){
+                    parser.escanear();
+                    if (parser.getT() == Terminal.CADENA_TEXTO){
+                        if (parser.getT() == Terminal.CIERRA_PARENTESIS){
+                            seguir = false;
+                        }
+                    } else {
+                        Estado expresion = new Expresion(parser,listaErrores);
+                        if (expresion.ejecutar() == null){
+                            seguir = false;
+                            listaErrores.add(new Error ("Se esperaba una cadena o una expresion"));
+                        }
+                    }
+                }
+            }
         } catch (IOException ex) {
             Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
         }
