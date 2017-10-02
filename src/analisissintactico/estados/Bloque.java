@@ -10,8 +10,6 @@ import common.Terminal;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -23,27 +21,22 @@ public class Bloque extends Estado{
         super(parser, listaErrores);
     }
     
-    private void fVar(){
+    private void fVar() throws IOException{
         Queue <Terminal> nodos = new LinkedList();
         nodos.add(Terminal.IDENT);
         Queue <String> mensajes = new LinkedList();
         mensajes.add("Se esperaba un identificador");
-        try {
-            parser.escanear();
-        } catch (IOException ex) {
-            Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        parser.escanear();
+        
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA,parser);
-        try {
-            
-            error = ciclo.run(listaErrores);
-        } catch (IOException ex) {
-            Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        error = ciclo.run(listaErrores);
+        
     }
     
     
-    private void fConst(){
+    private void fConst() throws IOException{
         Queue <Terminal> nodos = new LinkedList();
         nodos.add(Terminal.IDENT);
         nodos.add(Terminal.IGUAL);
@@ -53,17 +46,12 @@ public class Bloque extends Estado{
         mensajes.add("Se esperaba un igual");
         mensajes.add("Se esperaba un numero");
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.COMA,Terminal.PUNTO_COMA,parser);
-        try {
+        
             error = ciclo.run(listaErrores);
-        } catch (IOException ex) {
-            Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //System.out.println(error);
-        //System.out.println("Simboo actual desde Bloque " + parser.getT()+" "+ parser.getTexto());
     }
     
     //Terminar
-    private void fProcedure(){
+    private void fProcedure() throws IOException{
         System.out.println("PROCEDURE");
         Queue <Terminal> nodos = new LinkedList();
         nodos.add(Terminal.IDENT);
@@ -76,16 +64,13 @@ public class Bloque extends Estado{
         mensajes.add("Se esperaba un bloque");
         mensajes.add("Se esperaba un punto y coma");
         Ciclo ciclo = new CicloSaltos(nodos,mensajes,Terminal.CERRADO,Terminal.PUNTO_COMA,parser);
-        try {
-            error = ciclo.run(listaErrores);
-        } catch (IOException ex) {
-            Logger.getLogger(Bloque.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //System.out.println(error);
+        
+        error = ciclo.run(listaErrores);
+
     }
     
     @Override
-    public Error ejecutar(){
+    public Error ejecutar() throws IOException{
         System.out.println("parser "+ parser.getT());
         switch (parser.getT()) {
             case CONST:

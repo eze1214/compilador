@@ -6,7 +6,6 @@
 package analisissintactico.estados;
 
 import analisislexico.AnalizadorLexico;
-import common.Terminal;
 import java.io.IOException;
 import java.util.Queue;
 import java.util.logging.Level;
@@ -37,18 +36,12 @@ public class Expresion extends Estado{
     }
     
     @Override
-    public Error ejecutar(){
+    public Error ejecutar() throws IOException{
         switch (parser.getT()) {
             case MAS:
             case MENOS:
-        {
-            try {
-                fMasMenos();
-            } catch (IOException ex) {
-                Logger.getLogger(Expresion.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-                break;
+              fMasMenos();
+              break;
             default:
             error = new Error("Se esperaba un + o -");
         }

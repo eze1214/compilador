@@ -22,7 +22,7 @@ public class CicloSaltos extends Ciclo {
         super(componentes, mensajes, cont, fin,parser);
     }
     
-    private void ejecutarEstado(){
+    private void ejecutarEstado() throws IOException{
         error = estado.ejecutar();
         System.out.println("Error de estado ejecutado " + error);
         if (error != null){

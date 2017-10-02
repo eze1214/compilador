@@ -6,12 +6,8 @@
 package analisissintactico.estados;
 
 import analisislexico.AnalizadorLexico;
-import common.Terminal;
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -48,25 +44,20 @@ public class Condicion extends Estado {
                 } else 
                 error = new Error("Se esperaba una expresion");
     }
-    private void fODD(){
+    private void fODD() throws IOException{
     Estado estado = new Expresion(parser,listaErrores);
     error = estado.ejecutar();
     }
     
     @Override
-    public Error ejecutar() {
+    public Error ejecutar() throws IOException{
         switch (parser.getT()) {
             case ODD:
                 fODD();
                 break;
             default:
-        {
-            try {
                 fExpresion();
-            } catch (IOException ex) {
-                Logger.getLogger(Condicion.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+                break;
         }
         return error;
     }

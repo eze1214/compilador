@@ -42,7 +42,7 @@ public class Proposicion extends Estado {
     
     }
     @Override
-    public Error ejecutar() {
+    public Error ejecutar() throws IOException {
         switch (parser.getT()) {
             case IDENT:
                 fIdent();
@@ -74,16 +74,13 @@ public class Proposicion extends Estado {
         return error;
     }
 
-    private void fBegin() {
+    private void fBegin() throws IOException{
         Queue <Terminal> nodos = new LinkedList();
         Estado estado = new Proposicion(parser,listaErrores);
         error = estado.ejecutar();
         if (error != null){
-            try {
-                parser.escanear();
-            } catch (IOException ex) {
-                Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            parser.escanear();
+            
             nodos.add(Terminal.PUNTO_COMA);
             nodos.add(Terminal.PROPOSICION);
         
@@ -91,14 +88,11 @@ public class Proposicion extends Estado {
         mensajes.add("Se esperaba una proposicion");
        
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.PUNTO_COMA,Terminal.END,parser);
-        try {
+ 
             error = ciclo.run(listaErrores);
-        } catch (IOException ex) {
-            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }}
 
-    private void fCall() {
+    private void fCall() throws IOException{
         Queue <Terminal> nodos = new LinkedList();
         nodos.add(Terminal.IDENT);
 
@@ -113,7 +107,7 @@ public class Proposicion extends Estado {
         }
     }
     
-    private void fIf(){
+    private void fIf() throws IOException{
         Queue nodos = new LinkedList();
         nodos.add(Terminal.CONDICION);
         nodos.add(Terminal.THEN);
@@ -125,14 +119,12 @@ public class Proposicion extends Estado {
         mensajes.add("Se esperaba una proposicion");
         
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO,parser);
-        try {
+        
             error = ciclo.run(listaErrores);
-        } catch (IOException ex) {
-            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
     }
     
-    private void fWhile(){
+    private void fWhile() throws IOException{
         Queue nodos = new LinkedList();
         nodos.add(Terminal.CONDICION);
         nodos.add(Terminal.DO);
@@ -144,16 +136,11 @@ public class Proposicion extends Estado {
         mensajes.add("Se esperaba una proposicion");
         
         Ciclo ciclo = new Ciclo(nodos,mensajes,Terminal.CERRADO,Terminal.CERRADO,parser);
-        try {
             error = ciclo.run(listaErrores);
-        } catch (IOException ex) {
-            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
-    private void fReadln() {
+    private void fReadln() throws IOException {
         boolean terminar = false;
-        try {
             parser.escanear();
          
         if(parser.getT() == Terminal.ABRE_PARENTESIS){
@@ -178,19 +165,14 @@ public class Proposicion extends Estado {
                 }
             }
         }
-        }
-        catch (IOException ex) {
-            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
-    private void fWriteln() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void fWriteln() throws IOException{
+        fWrite();
     }
 
-    private void fWrite() {
+    private void fWrite() throws IOException{
         boolean seguir = false;
-        try { 
             parser.escanear();
             if (parser.getT() == Terminal.ABRE_PARENTESIS){
                 parser.escanear();
@@ -209,9 +191,7 @@ public class Proposicion extends Estado {
                 if (parser.getT() == Terminal.COMA){
                     parser.escanear();
                     if (parser.getT() == Terminal.CADENA_TEXTO){
-                        if (parser.getT() == Terminal.CIERRA_PARENTESIS){
-                            seguir = false;
-                        }
+                        seguir = true;
                     } else {
                         Estado expresion = new Expresion(parser,listaErrores);
                         if (expresion.ejecutar() == null){
@@ -219,10 +199,11 @@ public class Proposicion extends Estado {
                             listaErrores.add(new Error ("Se esperaba una cadena o una expresion"));
                         }
                     }
+                    parser.escanear();
+                    if (parser.getT() == Terminal.CIERRA_PARENTESIS){
+                            seguir = false;
+                        }
                 }
             }
-        } catch (IOException ex) {
-            Logger.getLogger(Proposicion.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

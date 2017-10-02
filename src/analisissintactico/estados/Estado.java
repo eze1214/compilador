@@ -6,13 +6,14 @@
 package analisissintactico.estados;
 
 import analisislexico.AnalizadorLexico;
+import java.io.IOException;
 import java.util.Queue;
 
 /**
  *
  * @author alumno
  */
-abstract public class Estado {
+abstract public class Estado  {
     
    protected Error error;
    protected AnalizadorLexico parser;
@@ -26,5 +27,5 @@ abstract public class Estado {
        return this.getClass().getName();
    }
    
-   abstract public Error ejecutar();
+   abstract public Error ejecutar() throws IOException;
 }

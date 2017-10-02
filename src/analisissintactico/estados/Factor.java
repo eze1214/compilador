@@ -9,8 +9,6 @@ import analisislexico.AnalizadorLexico;
 import common.Terminal;
 import java.io.IOException;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -23,8 +21,7 @@ public class Factor extends Estado {
     }
 
     @Override
-    public Error ejecutar() {
-        try {
+    public Error ejecutar() throws IOException{
             switch(parser.getT()){
                 case IDENT:
                 case NUMERO:
@@ -38,10 +35,6 @@ public class Factor extends Estado {
                        listaErrores.add(new Error("Se esperaba un parentesis de cierre"));
                     }
             }
-        } catch (IOException ex) {
-            Logger.getLogger(Factor.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return error;
     }
-    
 }

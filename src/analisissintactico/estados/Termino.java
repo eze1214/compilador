@@ -8,8 +8,6 @@ package analisissintactico.estados;
 import analisislexico.AnalizadorLexico;
 import java.io.IOException;
 import java.util.Queue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -22,15 +20,12 @@ public class Termino extends Estado {
     }
 
    @Override
-    public Error ejecutar(){
+    public Error ejecutar() throws IOException{
         Estado estado = new Factor(parser,listaErrores);
         error = estado.ejecutar();
         if (error == null){
-            try {
                 parser.escanear();
-            } catch (IOException ex) {
-                Logger.getLogger(Termino.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            
                 switch(parser.getT()){
                     case POR:
                     case DIVIDIDO:
